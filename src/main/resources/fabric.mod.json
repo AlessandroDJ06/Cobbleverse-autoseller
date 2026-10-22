@@ -4,12 +4,22 @@
   "version": "${version}",
   "name": "Cobble AutoSell",
   "description": "Hopper-compatible block that automatically sells items to the CobbleDollars bank for its owner.",
-  "authors": [],
+  "authors":  [
+    {
+      "name": "Alessandro De Jongh",
+      "contact": {
+        "homepage": "https://github.com/AlessandroDJ06"
+      }
+    }
+  ],
   "license": "All rights reserved",
   "environment": "*",
   "entrypoints": {
     "main": [
       { "adapter": "kotlin", "value": "dev.cobbleautosell.CobbleAutoSell" }
+    ],
+    "client": [
+      { "adapter": "kotlin", "value": "dev.cobbleautosell.CobbleAutoSellClient" }
     ]
   },
   "depends": {

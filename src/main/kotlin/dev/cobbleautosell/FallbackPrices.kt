@@ -32,7 +32,6 @@ object FallbackPrices {
         }
     }
 
-    /** CobbleDollars-bank wint; anders de fallback op item-ID. */
     fun priceOf(stack: ItemStack): BigInteger? =
         CobbleDollars.bankConfig.bank.get(stack)?.price
             ?: prices[BuiltInRegistries.ITEM.getKey(stack.item)]
