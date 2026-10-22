@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable_with_bottom",
+  "textures": {
+    "front": "cobbleautosell:block/auto_seller_front",
+    "side": "cobbleautosell:block/auto_seller_side",
+    "top": "cobbleautosell:block/auto_seller_top",
+    "bottom": "cobbleautosell:block/auto_seller_bottom"
+  }
+}

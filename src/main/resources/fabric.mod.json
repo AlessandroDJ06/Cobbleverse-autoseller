@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "cobbleautosell",
+  "version": "${version}",
+  "name": "Cobble AutoSell",
+  "description": "Hopper-compatible block that automatically sells items to the CobbleDollars bank for its owner.",
+  "authors": [],
+  "license": "All rights reserved",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      { "adapter": "kotlin", "value": "dev.cobbleautosell.CobbleAutoSell" }
+    ]
+  },
+  "depends": {
+    "minecraft": "~1.21.1",
+    "fabricloader": ">=0.16.5",
+    "fabric-api": "*",
+    "fabric-language-kotlin": "*",
+    "cobblemon": ">=1.6.0",
+    "cobbledollars": "*"
+  }
+}

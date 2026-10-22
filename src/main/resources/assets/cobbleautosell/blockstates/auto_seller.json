@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "cobbleautosell:block/auto_seller" },
+    "facing=east":  { "model": "cobbleautosell:block/auto_seller", "y": 90 },
+    "facing=south": { "model": "cobbleautosell:block/auto_seller", "y": 180 },
+    "facing=west":  { "model": "cobbleautosell:block/auto_seller", "y": 270 }
+  }
+}
