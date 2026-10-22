@@ -9,8 +9,7 @@ base { archivesName.set(property("archives_base_name") as String) }
 
 repositories {
     mavenCentral()
-    maven("https://maven.impactdev.net/repository/development/") // Cobblemon
-}
+    maven("https://maven.impactdev.net/repository/development/")
 
 dependencies {
     minecraft("com.mojang:minecraft:${property("minecraft_version")}")
@@ -20,8 +19,6 @@ dependencies {
     modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_version")}")
     modImplementation("net.fabricmc:fabric-language-kotlin:${property("fabric_kotlin_version")}")
     modImplementation("com.cobblemon:fabric:${property("cobblemon_version")}")
-
-    // Zet de CobbleDollars jar in ./libs (niet meebundelen / herdistribueren: All rights reserved)
     modImplementation(files("libs/CobbleDollars-fabric-2.0.0+Beta-5.1+1.21.1.jar"))
 }
 
@@ -36,3 +33,16 @@ tasks.processResources {
     inputs.property("version", project.version)
     filesMatching("fabric.mod.json") { expand("version" to project.version) }
 }
+
+tasks.jar {
+    val archiveName = project.base.archivesName.get()
+    from("LICENSE") {
+        rename { "${it}_$archiveName" }
+        }
+    }
+}
+
+tasks.named<Jar>("sourcesJar") {
+    from("LICENSE")
+}
+
