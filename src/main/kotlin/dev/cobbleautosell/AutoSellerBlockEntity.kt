@@ -105,7 +105,12 @@ class AutoSellerBlockEntity(pos: BlockPos, state: BlockState) :
         } else {
             uuid.addOfflineCobbleDollars(server, amount)
         }
+        SellStats.get(server).add(uuid, nameOf(server, uuid), amount)
     }
+
+    private fun nameOf(server: MinecraftServer, uuid: UUID): String? =
+        server.playerList.getPlayer(uuid)?.gameProfile?.name
+            ?: server.profileCache?.get(uuid)?.orElse(null)?.name
 
     override fun getDisplayName(): Component =
         Component.translatable("block.cobbleautosell.auto_seller")

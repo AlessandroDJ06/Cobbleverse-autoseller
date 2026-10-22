@@ -3,5 +3,13 @@
   "gui.cobbleautosell.value_inside": "Value inside:",
   "gui.cobbleautosell.sell_at": "Sell at value:",
   "gui.cobbleautosell.set": "Set",
-  "gui.cobbleautosell.currently": "Currently: %s"
+  "gui.cobbleautosell.currently": "Currently: %s",
+  "gui.cobbleautosell.tab.sell": "Sell",
+  "gui.cobbleautosell.tab.items": "Items",
+  "gui.cobbleautosell.tab.top": "Top",
+  "gui.cobbleautosell.search": "Search...",
+  "gui.cobbleautosell.loading": "Loading...",
+  "gui.cobbleautosell.no_results": "No items found",
+  "gui.cobbleautosell.top_title": "Top sellers",
+  "gui.cobbleautosell.no_sales": "No sales yet"
 }

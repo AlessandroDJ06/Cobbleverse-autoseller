@@ -6,6 +6,7 @@ import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Items
 import java.math.BigInteger
 import java.nio.file.Files
 
@@ -35,4 +36,11 @@ object FallbackPrices {
     fun priceOf(stack: ItemStack): BigInteger? =
         CobbleDollars.bankConfig.bank.get(stack)?.price
             ?: prices[BuiltInRegistries.ITEM.getKey(stack.item)]
+
+    fun sellable(): List<Pair<ResourceLocation, BigInteger>> =
+        BuiltInRegistries.ITEM
+            .filter { it != Items.AIR }
+            .mapNotNull { item ->
+                priceOf(ItemStack(item))?.let { BuiltInRegistries.ITEM.getKey(item) to it }
+            }
 }
