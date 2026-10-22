@@ -18,10 +18,17 @@ object CobbleAutoSell : ModInitializer {
         FallbackPrices.load()
 
         PayloadTypeRegistry.playC2S().register(SetThresholdPayload.TYPE, SetThresholdPayload.CODEC)
+        PayloadTypeRegistry.playC2S().register(RequestListsPayload.TYPE, RequestListsPayload.CODEC)
+        PayloadTypeRegistry.playS2C().register(ListsPayload.TYPE, ListsPayload.CODEC)
+
         ServerPlayNetworking.registerGlobalReceiver(SetThresholdPayload.TYPE) { payload, context ->
             val menu = context.player().containerMenu as? AutoSellerMenu ?: return@registerGlobalReceiver
             menu.setThreshold(context.player(), payload.value)
         }
 
+        ServerPlayNetworking.registerGlobalReceiver(RequestListsPayload.TYPE) { _, context ->
+            if (context.player().containerMenu !is AutoSellerMenu) return@registerGlobalReceiver
+            ServerPlayNetworking.send(context.player(), ListsPayload.create(context.server()))
+        }
     }
 }
