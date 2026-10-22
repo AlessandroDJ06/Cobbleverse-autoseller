@@ -22,5 +22,6 @@ object CobbleAutoSell : ModInitializer {
             val menu = context.player().containerMenu as? AutoSellerMenu ?: return@registerGlobalReceiver
             menu.setThreshold(context.player(), payload.value)
         }
+
     }
 }

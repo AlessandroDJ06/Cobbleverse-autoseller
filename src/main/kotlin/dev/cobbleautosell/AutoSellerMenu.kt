@@ -14,12 +14,12 @@ class AutoSellerMenu(
     id: Int,
     playerInv: Inventory,
     private val container: Container = SimpleContainer(5),
-    private val data: ContainerData = SimpleContainerData(2)
+    private val data: ContainerData = SimpleContainerData(4)
 ) : AbstractContainerMenu(ModMenus.AUTO_SELLER, id) {
 
     init {
         checkContainerSize(container, 5)
-        checkContainerDataCount(data, 2)
+        checkContainerDataCount(data, 4)
         container.startOpen(playerInv.player)
 
         for (i in 0 until 5) {
@@ -28,21 +28,24 @@ class AutoSellerMenu(
             })
         }
         for (row in 0 until 3) for (col in 0 until 9)
-            addSlot(Slot(playerInv, col + row * 9 + 9, 8 + col * 18, 85 + row * 18))
+            addSlot(Slot(playerInv, col + row * 9 + 9, 8 + col * 18, 49 + row * 18))
         for (col in 0 until 9)
-            addSlot(Slot(playerInv, col, 8 + col * 18, 143))
+            addSlot(Slot(playerInv, col, 8 + col * 18, 107))
 
         addDataSlots(data)
     }
 
-    /** Huidige drempel, werkt op zowel client als server. */
+    /** Current sell threshold (works on both client and server). */
     fun getThreshold(): Int = (data.get(1) shl 16) or (data.get(0) and 0xFFFF)
 
-    /** Wordt op de server aangeroepen vanuit het netwerkpakket. */
+    /** Total value of the items inside the block (works on both client and server). */
+    fun getTotalValue(): Int = (data.get(3) shl 16) or (data.get(2) and 0xFFFF)
+
+    /** Called on the server from the network packet. */
     fun setThreshold(player: Player, value: Int) {
         val be = container as? AutoSellerBlockEntity ?: return
         val owner = be.owner
-        if (owner != null && owner != player.uuid) return // alleen de eigenaar
+        if (owner != null && owner != player.uuid) return // owner only
         be.threshold = value
     }
 

@@ -1,3 +1,7 @@
 {
-  "block.cobbleautosell.auto_seller": "Auto Seller"
+  "block.cobbleautosell.auto_seller": "Auto Seller",
+  "gui.cobbleautosell.value_inside": "Value inside:",
+  "gui.cobbleautosell.sell_at": "Sell at value:",
+  "gui.cobbleautosell.set": "Set",
+  "gui.cobbleautosell.currently": "Currently: %s"
 }

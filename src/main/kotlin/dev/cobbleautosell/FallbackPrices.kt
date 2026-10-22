@@ -28,7 +28,7 @@ object FallbackPrices {
                 prices[id] = o["price"].asBigInteger
             }
         } catch (e: Exception) {
-            CobbleAutoSell.LOGGER.error("Kon fallback_bank.json niet laden", e)
+            CobbleAutoSell.LOGGER.error("Failed to load fallback_bank.json", e)
         }
     }
 

@@ -34,6 +34,7 @@ class AutoSellerBlockEntity(pos: BlockPos, state: BlockState) :
         const val MAX_THRESHOLD = 1_000_000_000
         const val DEFAULT_THRESHOLD = 1
         private val ALL_SLOTS = IntArray(SLOTS) { it }
+        private val INT_MAX = BigInteger.valueOf(Int.MAX_VALUE.toLong())
 
         fun serverTick(level: Level, pos: BlockPos, state: BlockState, be: AutoSellerBlockEntity) {
             if (be.owner == null || be.isEmpty()) return
@@ -54,23 +55,38 @@ class AutoSellerBlockEntity(pos: BlockPos, state: BlockState) :
             setChanged()
         }
 
+    /**
+     * Synced to the client menu. Values are sent as 16-bit shorts, so each number uses two slots:
+     * 0/1 = sell threshold (low/high), 2/3 = total value of the items inside (low/high).
+     */
     val dataAccess = object : ContainerData {
-        override fun get(index: Int): Int =
-            if (index == 0) threshold and 0xFFFF else threshold ushr 16
+        override fun get(index: Int): Int = when (index) {
+            0 -> threshold and 0xFFFF
+            1 -> threshold ushr 16
+            2 -> displayValue() and 0xFFFF
+            else -> displayValue() ushr 16
+        }
+
         override fun set(index: Int, value: Int) {}
-        override fun getCount(): Int = 2
+        override fun getCount(): Int = 4
     }
 
-    private fun sellIfThresholdReached(server: MinecraftServer) {
-        val ownerId = owner ?: return
+    /** Total sell value of everything currently inside the block. */
+    fun totalValue(): BigInteger {
         var total = BigInteger.ZERO
-
         for (stack in items) {
             if (stack.isEmpty) continue
             val price = FallbackPrices.priceOf(stack) ?: continue
             total = total.add(price.multiply(BigInteger.valueOf(stack.count.toLong())))
         }
+        return total
+    }
 
+    private fun displayValue(): Int = totalValue().min(INT_MAX).toInt()
+
+    private fun sellIfThresholdReached(server: MinecraftServer) {
+        val ownerId = owner ?: return
+        val total = totalValue()
         if (total < BigInteger.valueOf(threshold.toLong())) return
 
         for (i in items.indices) {
